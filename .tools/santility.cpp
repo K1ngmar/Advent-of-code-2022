@@ -55,6 +55,8 @@ std::vector<std::string> santility::split(const std::string& str, const std::str
 	size_t currentPos = 0;
 	size_t nextPos = 0;
 
+	// issa magic number, believe me its true
+	subStrings.reserve(santility::magic);
 	while (currentPos != std::string::npos) {
 		nextPos = str.find(seperator, currentPos + seperator.length());
 		subStrings.emplace_back(str.substr(currentPos, nextPos - currentPos));

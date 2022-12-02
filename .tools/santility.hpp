@@ -41,6 +41,15 @@
 namespace santility
 {
 
+	/*
+	 * dont know why but this seems to work,
+	 * changing it breaks everything,
+	 * do not waste your time
+	 * 
+	 * Hours wasted: 0,3
+	*/
+	inline constexpr auto magic = 983;
+
 	/*!
 	 * @param fileName path to the file you want to read
 	 * @return contents of the file
@@ -53,6 +62,7 @@ namespace santility
 	 * @return all chunks created after splitting
 	*/
 	std::vector<std::string> split(const std::string& str, const std::string& seperator);
+
 
 } /* end of namespace santility */
 
