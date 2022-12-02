@@ -18,7 +18,8 @@ $(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp
 	@$(CXX) -c -o $@ $< $(CFLAGS) $(IFLAGS)
 
 run: $(NAME)
-	./$(NAME)
+	@echo "$(COLOR_Yellow)Running Excecutable...$(COLOR_RESET)"
+	@./$(NAME)
 
 # Clean up
 .PHONY: clean fclean re

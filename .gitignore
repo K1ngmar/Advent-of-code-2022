@@ -133,3 +133,6 @@ dmypy.json
 
 # cookies
 .cookiemonster
+
+# obj
+.obj

@@ -47,6 +47,13 @@ namespace santility
 	*/
 	std::string read_file(const std::string& fileName);
 
+	/*!
+	 * @param str string you want to split
+	 * @param seperator set of characters you want str to be split on
+	 * @return all chunks created after splitting
+	*/
+	std::vector<std::string> split(const std::string& str, const std::string& seperator);
+
 } /* end of namespace santility */
 
 #endif

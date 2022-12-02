@@ -45,3 +45,20 @@ std::string santility::read_file(const std::string& fileName)
 	buffer << file.rdbuf();
 	return buffer.str();
 }
+
+std::vector<std::string> santility::split(const std::string& str, const std::string& seperator)
+{
+	if (str.length() == 0 || str.find(seperator) == std::string::npos)
+		return {};
+
+	std::vector<std::string> subStrings;
+	size_t currentPos = 0;
+	size_t nextPos = 0;
+
+	while (currentPos != std::string::npos) {
+		nextPos = str.find(seperator, currentPos + seperator.length());
+		subStrings.emplace_back(str.substr(currentPos, nextPos - currentPos));
+		currentPos = nextPos;
+	}
+	return subStrings;
+}
