@@ -43,9 +43,11 @@
 
 auto calculate_result(const std::string& data)
 {
-	(void)data;
+	auto elements = santility::split(data, "\n");
+	
 	// calculate result here
-	return 1;
+	
+	return elements.size();
 }
 
 int main(int argc, char** argv)

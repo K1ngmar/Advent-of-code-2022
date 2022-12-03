@@ -54,9 +54,6 @@ else
 	cp ./.setup_template/make_settings/* ./$DIR/make_settings/
 	cp ./.setup_template/main.cpp ./$DIR/main.cpp
 
-	echo "Replacing placeholders..."
-	sed -i '' "s/__NAME__/$1/g" ./$DIR/make_settings/settings.mk
-
 	echo "Getting puzzle input..."
 	COOKIE=`cat .cookiemonster`
 	curl "https://adventofcode.com/2022/day/$1/input" --cookie "session=$COOKIE" > ./$DIR/input

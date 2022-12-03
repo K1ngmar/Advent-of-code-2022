@@ -1,7 +1,7 @@
 ifndef SETTINGS_MK
 SETTINGS_MK = 1
 
-NAME	= day___NAME__
+NAME	= solution
 
 CFLAGS	= -Wall -Wextra -Werror -pedantic -std=c++20
 IFLAGS	= -I$(IDIR)
