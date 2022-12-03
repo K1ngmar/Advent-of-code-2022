@@ -57,10 +57,15 @@ std::vector<std::string> santility::split(const std::string& str, const std::str
 
 	// issa magic number, believe me its true
 	subStrings.reserve(santility::magic);
-	while (currentPos != std::string::npos) {
-		nextPos = str.find(seperator, currentPos + seperator.length());
-		subStrings.emplace_back(str.substr(currentPos, nextPos - currentPos));
-		currentPos = nextPos;
-	}
+
+	do
+	{
+		nextPos = str.find(seperator, currentPos);
+		if (nextPos != currentPos) {
+			subStrings.emplace_back(str.substr(currentPos, nextPos - currentPos));
+		}
+		currentPos = nextPos + seperator.length();
+
+	} while (nextPos != std::string::npos && currentPos != str.length());
 	return subStrings;
 }
