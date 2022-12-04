@@ -52,14 +52,11 @@ auto calculate_answer(const std::string& data)
 	size_t p2 = 0;
 	for (auto& pair : pairs)
 	{
-		auto elvePair = santility::split(pair, ",");
-		auto plot_0 = santility::split(elvePair[0], "-");
-		auto plot_1 = santility::split(elvePair[1], "-");
-		
-		auto elve_0_lower = std::stoi(plot_0[0]); 
-		auto elve_0_upper = std::stoi(plot_0[1]); 
-		auto elve_1_lower = std::stoi(plot_1[0]); 
-		auto elve_1_upper = std::stoi(plot_1[1]);
+		uint32_t elve_0_lower,
+				 elve_0_upper,
+				 elve_1_lower,
+				 elve_1_upper;
+		std::sscanf(pair.c_str(), "%u-%u,%u-%u", &elve_0_lower, &elve_0_upper, &elve_1_lower, &elve_1_upper);
 
 		if (elve_0_lower <= elve_1_lower && elve_0_upper >= elve_1_upper) {
 			p1++;

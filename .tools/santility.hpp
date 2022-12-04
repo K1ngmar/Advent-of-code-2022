@@ -63,7 +63,6 @@ namespace santility
 	*/
 	std::vector<std::string> split(const std::string& str, const std::string& seperator);
 
-
 } /* end of namespace santility */
 
 #endif
