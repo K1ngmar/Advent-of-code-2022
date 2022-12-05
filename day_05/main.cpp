@@ -44,10 +44,46 @@
 
 constexpr size_t total_stacks = 9;
 
-auto create_stacks(const std::string& raw_stacks)
+template <class StackList>
+struct ICrateMover
+{
+	virtual void move_crate (StackList& stackList, uint32_t moveAmt, uint32_t fromStackId, uint32_t toStackId) = 0;
+};
+
+template <class StackList>
+struct CrateMover_9000 : public ICrateMover<StackList>
+{
+	virtual void move_crate (StackList& stackList, uint32_t moveAmt, uint32_t fromStackId, uint32_t toStackId)
+	{
+		for (size_t i = 0; i < moveAmt; i++)
+		{
+			auto cargo = stackList[fromStackId].front();
+			stackList[fromStackId].pop_front();
+			stackList[toStackId].push_front(cargo);
+		}
+	}
+};
+
+template <class StackList>
+struct CrateMover_9001 : public ICrateMover<StackList>
+{
+	virtual void move_crate (StackList& stackList, uint32_t moveAmt, uint32_t fromStackId, uint32_t toStackId)
+	{
+		for (size_t i = 0; i < moveAmt; i++)
+		{
+			auto crate = stackList[fromStackId].begin() + moveAmt - i - 1;
+			auto cargo = *crate;
+			stackList[fromStackId].erase(crate);
+			stackList[toStackId].push_front(cargo);
+		}
+	}
+};
+
+using stacklist_t = std::vector<std::deque<unsigned char> >;
+auto create_stack_list(const std::string& raw_stacks)
 {
 	constexpr size_t stack_distance = 4;
-	std::vector<std::deque<unsigned char> > parsed_stacks(total_stacks);
+	stacklist_t parsed_stacks(total_stacks);
 
 	auto stacks = santility::split(raw_stacks, "\n");
 	// get rid of line with indexes
@@ -75,55 +111,26 @@ auto get_top_crates(const std::vector<std::deque<unsigned char> > stacks)
 	return topCrates;
 }
 
-auto crate_mover_9000(const std::string& data)
+auto move_stacks(const std::string& data, ICrateMover<stacklist_t>* crateMover)
 {
 	auto split = santility::split(data, "\n\n");
-	auto stacks = create_stacks(split[0]);
+	auto stackList = create_stack_list(split[0]);
 	auto moves = santility::split(split[1], "\n");
 
 	uint32_t moveAmt;
 	uint32_t fromStackId;
 	uint32_t toStackId;
-	for (auto& move : moves) {
+	for (auto& move : moves)
+	{
+	
 		std::sscanf(move.c_str(), "move %u from %u to %u", &moveAmt, &fromStackId, &toStackId);
 
 		// subtract one because they use 1 based indexing
 		fromStackId -= 1;
 		toStackId -= 1;
-
-		for (size_t i = 0; i < moveAmt; i++) {
-			auto cargo = stacks[fromStackId].front();
-			stacks[fromStackId].pop_front();
-			stacks[toStackId].push_front(cargo);
-		}
+		crateMover->move_crate(stackList, moveAmt, fromStackId, toStackId);
 	}
-	return get_top_crates(stacks);
-}
-
-auto crate_mover_9001(const std::string& data)
-{
-	auto split = santility::split(data, "\n\n");
-	auto stacks = create_stacks(split[0]);
-	auto moves = santility::split(split[1], "\n");
-
-	uint32_t moveAmt;
-	uint32_t fromStackId;
-	uint32_t toStackId;
-	for (auto& move : moves) {
-		std::sscanf(move.c_str(), "move %u from %u to %u", &moveAmt, &fromStackId, &toStackId);
-
-		// subtract one because they use 1 based indexing
-		fromStackId -= 1;
-		toStackId -= 1;
-
-		for (size_t i = 0; i < moveAmt; i++) {
-			auto crate = stacks[fromStackId].begin() + moveAmt - i - 1;
-			auto cargo = *crate;
-			stacks[fromStackId].erase(crate);
-			stacks[toStackId].push_front(cargo);
-		}
-	}
-	return get_top_crates(stacks);
+	return get_top_crates(stackList);
 }
 
 int main(int argc, char** argv)
@@ -134,8 +141,11 @@ int main(int argc, char** argv)
 	}
 	const std::string data = santility::read_file(fileName);
 
-	auto part1 = crate_mover_9000(data);
+	CrateMover_9000<stacklist_t> crateMover9000;
+	auto part1 = move_stacks(data, &crateMover9000);
 	std::cout << "part1: " << part1 << std::endl;
-	auto part2 = crate_mover_9001(data);
+
+	CrateMover_9001<stacklist_t> crateMover9001;
+	auto part2 = move_stacks(data, &crateMover9001);
 	std::cout << "part2: " << part2 << std::endl;
 }
