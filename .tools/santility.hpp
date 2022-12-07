@@ -58,10 +58,17 @@ namespace santility
 
 	/*!
 	 * @param str string you want to split
-	 * @param seperator set of characters you want str to be split on
+	 * @param seperator what will be split on
 	 * @return all chunks created after splitting
 	*/
 	std::vector<std::string> split(const std::string& str, const std::string& seperator);
+	
+	/*!
+	 * @param str string you want to split
+	 * @param seperators set of characters you want str to be split on
+	 * @return all chunks created after splitting
+	*/
+	std::vector<std::string> split_set(const std::string& str, const std::string& seperators);
 
 } /* end of namespace santility */
 

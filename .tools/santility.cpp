@@ -69,3 +69,27 @@ std::vector<std::string> santility::split(const std::string& str, const std::str
 	} while (nextPos != std::string::npos && currentPos != str.length());
 	return subStrings;
 }
+
+std::vector<std::string> santility::split_set(const std::string& str, const std::string& seperators)
+{
+	if (str.length() == 0 || str.find_first_of(seperators) == std::string::npos)
+		return {};
+
+	std::vector<std::string> subStrings;
+	size_t currentPos = 0;
+	size_t nextPos = 0;
+
+	// issa magic number, believe me its true
+	subStrings.reserve(santility::magic);
+
+	do
+	{
+		nextPos = str.find_first_of(seperators, currentPos);
+		if (nextPos != currentPos) {
+			subStrings.emplace_back(str.substr(currentPos, nextPos - currentPos));
+		}
+		currentPos = nextPos + 1;
+
+	} while (nextPos != std::string::npos && currentPos != str.length());
+	return subStrings;
+}
